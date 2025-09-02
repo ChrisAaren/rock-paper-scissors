@@ -1,11 +1,18 @@
+let humanScore = 0;
+let computerScore = 0;
+
 function getComputerChoice() {
   let randomNumber = Math.floor(Math.random() * 3);
 
   if (randomNumber === 0) {
-    console.log("rock");
+    return "rock";
   } else if (randomNumber === 1) {
-    console.log("paper");
+    return "paper";
   } else {
-    console.log("scissors");
+    return "scissors";
   }
+}
+
+function getHumanChoice(input) {
+  return input;
 }
