@@ -1,38 +1,81 @@
+// TODO:
+// Display results/score logic
+// Decide winner logic
+
 let humanScore = 0;
 let computerScore = 0;
 
 function playGame() {
-  for (let i = 0; i < 5; i++) {
-    playRound(getHumanChoice(), getComputerChoice());
-  }
-  if (computerScore > humanScore) {
-    console.log("You lost the game! Try Again.");
-  } else {
-    console.log("You win the game! Congratulations!");
-  }
+  const scoreboard = document.querySelector(".scoreboard");
+
+  const rock = document.createElement("button");
+  rock.textContent = "Rock";
+
+  const paper = document.createElement("button");
+  paper.textContent = "paper";
+
+  const scissors = document.createElement("button");
+  scissors.textContent = "scissors";
+
+  scoreboard.appendChild(rock);
+  scoreboard.appendChild(paper);
+  scoreboard.appendChild(scissors);
+
+  let result = document.createElement("p");
+
+  rock.addEventListener("click", () => {
+    playRound("rock", getComputerChoice(), scoreboard);
+  });
+
+  paper.addEventListener("click", () => {
+    playRound("paper", getComputerChoice(), scoreboard);
+  });
+
+  scissors.addEventListener("click", () => {
+    playRound("scissors", getComputerChoice(), scoreboard);
+  });
 }
 
-function playRound(humanChoice, computerChoice) {
+function playRound(humanChoice, computerChoice, scoreboard) {
   let human = String(humanChoice);
 
+  let results = document.createElement("p");
+  let score = document.createElement("p");
+
   if (human === "rock" && computerChoice === "paper") {
-    console.log("You lose! Paper beats Rock!");
+    results.textContent = "You lose! Paper beats Rock!";
     computerScore++;
   } else if (human === "paper" && computerChoice === "scissors") {
-    console.log("You lose! Scissors beats Paper!");
+    results.textContent = "You lose! Scissors beats Paper!";
     computerScore++;
   } else if (human === "scissors" && computerChoice === "rock") {
-    console.log("You lose! Rock beats Scissors!");
+    results.textContent = "You lose! Rock beats Scissors!";
     computerScore++;
   } else if (human === computerChoice) {
-    console.log(
-      "You and the opponent made the same choice! No points added or lost!",
-    );
+    results.textContent =
+      "You and the opponent made the same choice! No points added or lost!";
   } else {
-    console.log("You won the round!");
-    console.log("Your opponent chose: ", computerChoice);
+    results.textContent =
+      "You won the round! Your opponent chose: " + computerChoice;
     humanScore++;
   }
+  score.textContent = humanScore;
+  scoreboard.appendChild(score);
+  scoreboard.appendChild(results);
+
+  /*
+  This part is used to check the winner and to keep track of the score.
+  */
+
+  // if (humanScore >= 5) {
+  //   let winner = document.createElement("p");
+  //   winner.textContent = "You win the game! Congradulations!";
+  //   scoreboard.appendChild(winner);
+  // } else {
+  //   let loser = document.createElement("p");
+  //   loser.textContent = "You lost the game! Try Again.";
+  //   scoreboard.appendChild(loser);
+  // }
 }
 
 function getComputerChoice() {
