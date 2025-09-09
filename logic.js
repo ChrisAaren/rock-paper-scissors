@@ -1,50 +1,81 @@
-// TODO:
-// Display results/score logic
-// Decide winner logic
-
 function playGame() {
   let humanScore = 0;
   let computerScore = 0;
 
   let playerWinFlag = "";
 
-  let result = document.createElement("p");
+  const scoreboard = document.querySelector(".scoreboard");
+
+  // Creates game title
+  const gameTitle = document.createElement("h1");
+  gameTitle.textContent = "Rock-Paper-Scissors";
+
+  // Displays text results
+  const results = document.createElement("p");
+
+  // Displays score count for human player
+  const score = document.createElement("p");
+  score.textContent = humanScore;
+
+  // Displays choices for human player
+  const rock = document.createElement("button");
+  rock.textContent = "Rock";
+  const paper = document.createElement("button");
+  paper.textContent = "Paper";
+  const scissors = document.createElement("button");
+  scissors.textContent = "Scissors";
 
   rock.addEventListener("click", () => {
     playerWinFlag = playRound("rock", getComputerChoice());
+    scoreUpdater();
+    results.textContent = decideWinner(playerWinFlag);
   });
 
   paper.addEventListener("click", () => {
     playerWinFlag = playRound("paper", getComputerChoice());
+    scoreUpdater();
+    results.textContent = decideWinner(playerWinFlag);
   });
 
   scissors.addEventListener("click", () => {
     playerWinFlag = playRound("scissors", getComputerChoice());
+    scoreUpdater();
+    results.textContent = decideWinner(playerWinFlag);
   });
 
-  humanScore += playerWinFlag ? 1 : 0;
-  computerScore += playerWinFlag ? 0 : 1;
+  function scoreUpdater() {
+    if (playerWinFlag === "human") {
+      humanScore++;
+      score.textContent = humanScore;
+    } else if (playerWinFlag === "computer") {
+      computerScore++;
+    }
+  }
+
+  scoreboard.appendChild(gameTitle);
+  scoreboard.appendChild(results);
+  scoreboard.appendChild(score);
+  scoreboard.appendChild(rock);
+  scoreboard.appendChild(paper);
+  scoreboard.appendChild(scissors);
 }
+
 /*
- * Returns true if the player wins the round
+ * Returns a string flag to signify who the winner of the round is
  */
 function playRound(humanChoice, computerChoice) {
   let playerWinFlag = "computer";
   let human = String(humanChoice);
 
   if (human === "rock" && computerChoice === "paper") {
-    results.textContent = "You lose! Paper beats Rock!";
+    return playerWinFlag;
   } else if (human === "paper" && computerChoice === "scissors") {
-    results.textContent = "You lose! Scissors beats Paper!";
+    return playerWinFlag;
   } else if (human === "scissors" && computerChoice === "rock") {
-    results.textContent = "You lose! Rock beats Scissors!";
+    return playerWinFlag;
   } else if (human === computerChoice) {
-    results.textContent =
-      "You and the opponent made the same choice! No points added or lost!";
     playerWinFlag = "tie";
   } else {
-    results.textContent =
-      "You won the round! Your opponent chose: " + computerChoice;
     playerWinFlag = "human";
   }
   return playerWinFlag;
@@ -67,25 +98,12 @@ function getHumanChoice() {
   return choice.toLowerCase();
 }
 
-function displayGame() {
-  const scoreboard = document.querySelector(".scoreboard");
-
-  const gameTitle = document.createElement("h1");
-  gameTitle.textContent = "Rock-Paper-Scissors";
-
-  const rock = document.createElement("button");
-  rock.textContent = "Rock";
-
-  const paper = document.createElement("button");
-  paper.textContent = "Paper";
-
-  const scissors = document.createElement("button");
-  scissors.textContent = "Scissors";
-
-  scoreboard.appendChild(gameTitle);
-  scoreboard.appendChild(rock);
-  scoreboard.appendChild(paper);
-  scoreboard.appendChild(scissors);
-
-  function displayResults(humanScore, computerScore) {}
+function decideWinner(playerWinFlag) {
+  if (playerWinFlag === "human") {
+    return "You won the round!";
+  } else if (playerWinFlag === "computer") {
+    return "You lost the round!";
+  } else if (playerWinFlag === "tie") {
+    return "The round was a tie!";
+  }
 }
